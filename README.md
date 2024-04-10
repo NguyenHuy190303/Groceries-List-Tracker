@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.imgur.com/VcCLABa.gif" alt="Groceries List Tracker Logo" width="300px">
+  <img src="[https://i.imgur.com/VcCLABa.gif" alt="Groceries List Tracker Logo" width="300px](https://vcdn-giadinh.vnecdn.net/2017/10/18/tet-2311-1508322246.jpg)">
 </div>
 
 # Groceries List Tracker 🛒📊
