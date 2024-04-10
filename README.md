@@ -21,11 +21,10 @@ Our backend REST API provides a seamless interface for the Windows application (
 ### Language Considerations 📝
 
 Choose from a range of backend technologies:
-- **Python (Flask or FastAPI)** 🐍
-- **Node.js (Express)** 🟩
-- **Java (Spring Boot)** ☕
+- **Python (Flask)** 🐍
 
 ## Windows Application (C#) 🖥️
+ ...
 
 ### User Interface 🎨
 
