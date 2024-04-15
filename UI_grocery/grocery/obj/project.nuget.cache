@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "23zVAKptJsAe/qDzpLvWgasuxFP983tvZPy7TcE3ZAfYZGswoZfZ715yhorATjk4/h72k0aaeiwNxLH/bZS8wg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tiamo\\Downloads\\UI_grocery\\grocery\\grocery.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tiamo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.29\\microsoft.windowsdesktop.app.ref.6.0.29.nupkg.sha512",
+    "C:\\Users\\tiamo\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.29\\microsoft.netcore.app.ref.6.0.29.nupkg.sha512",
+    "C:\\Users\\tiamo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.29\\microsoft.aspnetcore.app.ref.6.0.29.nupkg.sha512",
+    "C:\\Users\\tiamo\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.29\\microsoft.netcore.app.host.win-x64.6.0.29.nupkg.sha512"
+  ],
+  "logs": []
+}

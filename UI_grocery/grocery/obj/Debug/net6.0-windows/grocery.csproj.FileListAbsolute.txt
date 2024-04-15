@@ -1,0 +1,14 @@
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery_MarkupCompile.cache
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.g.resources
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.AssemblyInfoInputs.cache
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.AssemblyInfo.cs
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.csproj.CoreCompileInputs.cache
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\login.baml
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\login.g.cs
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\grocery.csproj.AssemblyReference.cache
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\history_purchase.baml
+C:\Users\tiamo\Downloads\UI_grocery\grocery\obj\Debug\net6.0-windows\history_purchase.g.cs
