@@ -88,7 +88,7 @@ public class DataAccessLayer
 
     public DataAccessLayer()
     {
-        string connectionString = "server=<server>;user=<user>;password=<password>;database=<database>;charset=utf8mb4";
+        string connectionString = = "server=mari.vamk.fi;user=e2101098;password=cqgYeaFEN6A;database=e2101098_Windows;charset=utf8mb4";
         connection = new MySqlConnection(connectionString);
     }
 
