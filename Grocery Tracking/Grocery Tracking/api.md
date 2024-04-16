@@ -104,7 +104,6 @@ Calculates the remaining budget for a user.
 - `ItemName` (string): The name of the item.
 - `Price` (decimal): The price of the item.
 - `Date` (DateTime): The date of the purchase.
-- `Category` (string): The category of the item.
 
 ### Summary
 
