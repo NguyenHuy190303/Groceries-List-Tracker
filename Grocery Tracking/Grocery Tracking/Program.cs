@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +33,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-        // Add other services as needed...
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,6 +52,7 @@ public class Startup
         });
     }
 }
+
 public class User
 {
     public int Id { get; set; }
@@ -61,7 +61,6 @@ public class User
     public string? PasswordHash { get; set; }
     public string? Role { get; set; }
     public decimal Budget { get; set; }
-    // Other properties...
 }
 
 public class Purchase
@@ -72,14 +71,12 @@ public class Purchase
     public decimal Price { get; set; }
     public DateTime Date { get; set; }
     public string? Category { get; set; }
-    // Other properties...
 }
 
 public class Summary
 {
     public string? Month { get; set; }
     public decimal TotalSpending { get; set; }
-    // Other properties...
 }
 
 public class DataAccessLayer
