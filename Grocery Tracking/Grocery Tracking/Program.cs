@@ -25,6 +25,7 @@ public class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseUrls("http://localhost:5002"); // specify your URL here
             });
 }
 
@@ -33,6 +34,16 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000") // replace with your frontend URL
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -43,6 +54,8 @@ public class Startup
         }
 
         app.UseRouting();
+
+        app.UseCors();
 
         app.UseAuthorization();
 
