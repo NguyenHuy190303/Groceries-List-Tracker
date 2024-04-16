@@ -96,8 +96,6 @@ Calculates the remaining budget for a user.
 - `Name` (string): The name of the user.
 - `Email` (string): The email of the user.
 - `PasswordHash` (string): The hashed password of the user.
-- `Role` (string): The role of the user.
-- `Budget` (decimal): The budget of the user.
 
 ### Purchase
 
