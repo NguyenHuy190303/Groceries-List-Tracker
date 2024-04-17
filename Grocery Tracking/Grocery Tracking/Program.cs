@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-// Import other necessary namespaces...
 
 public class Program
 {
@@ -69,26 +68,26 @@ public class Startup
 public class User
 {
     public int Id { get; set; }
-    public string? Name { get; set; }
-    public string? Email { get; set; }
-    public string? PasswordHash { get; set; }
-    public string? Role { get; set; }
-    public decimal Budget { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
 }
 
 public class Purchase
 {
     public int Id { get; set; }
-    public User? User { get; set; }
-    public string? ItemName { get; set; }
-    public decimal Price { get; set; }
-    public DateTime Date { get; set; }
-    public string? Category { get; set; }
+    public int? UserId { get; set; }
+    public string ItemName { get; set; } = string.Empty;
+    public decimal? Price { get; set; }
+    public decimal? Quantity { get; set; }
+    public DateTime? Date { get; set; }
+    public string StoreName { get; set; } = string.Empty;
 }
 
 public class Summary
 {
-    public string? Month { get; set; }
+    public int UserId { get; set; }
+    public string Month { get; set; } = string.Empty;
     public decimal TotalSpending { get; set; }
 }
 
@@ -118,6 +117,58 @@ public class DataAccessLayer
         }
     }
 
+    public User CreateUser(User user)
+    {
+        string query = "INSERT INTO User (Name, Email, PasswordHash) VALUES (@Name, @Email, @PasswordHash)";
+
+        using (MySqlCommand command = new MySqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@Name", user.Name);
+            command.Parameters.AddWithValue("@Email", user.Email);
+            command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        // Return the newly created user
+        return user;
+    }
+
+    public User? GetUserByUsernameAndPassword(string username, string password)
+    {
+        string query = "SELECT * FROM User WHERE Name = @Name AND PasswordHash = @PasswordHash";
+
+        User? user = null;
+
+        using (MySqlCommand command = new MySqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@Name", username);
+            command.Parameters.AddWithValue("@PasswordHash", password);
+
+            connection.Open();
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    user = new User
+                    {
+                        Id = reader.GetInt32("Id"),
+                        Name = reader.GetString("Name"),
+                        Email = reader.GetString("Email"),
+                        PasswordHash = reader.GetString("PasswordHash"),
+                    };
+                }
+            }
+
+            connection.Close();
+        }
+
+        return user;
+    }
+
     public List<Purchase> GetPriceHistory(string itemName)
     {
         List<Purchase> purchases = new List<Purchase>();
@@ -137,11 +188,9 @@ public class DataAccessLayer
                     Purchase purchase = new Purchase
                     {
                         Id = reader.GetInt32("Id"),
-                        User = new User { Id = reader.GetInt32("UserId") }, // Replace with your actual logic for getting the User
                         ItemName = reader.GetString("ItemName"),
                         Price = reader.GetDecimal("Price"),
                         Date = reader.GetDateTime("Date"),
-                        Category = reader.GetString("Category")
                         // Set other properties...
                     };
                     purchases.Add(purchase);
@@ -188,84 +237,9 @@ public class DataAccessLayer
         return summaries;
     }
 
-    public void SetBudget(int userId, decimal budget)
-    {
-        string query = "INSERT INTO User (Id, Budget) VALUES (@userId, @budget)";
-
-        using (MySqlCommand command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@userId", userId);
-            command.Parameters.AddWithValue("@budget", budget);
-
-            connection.Open();
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-    }
-
-    public void UpdateBudget(int userId, decimal budget)
-    {
-        string query = "UPDATE User SET Budget = @budget WHERE Id = @userId";
-
-        using (MySqlCommand command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@userId", userId);
-            command.Parameters.AddWithValue("@budget", budget);
-
-            connection.Open();
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-    }
-
-    public decimal CalculateRemainingBudget(int userId)
-    {
-        decimal budget = 0;
-        decimal totalSpending = 0;
-
-        string budgetQuery = "SELECT Budget FROM User WHERE Id = @userId";
-
-        using (MySqlCommand command = new MySqlCommand(budgetQuery, connection))
-        {
-            command.Parameters.AddWithValue("@userId", userId);
-
-            connection.Open();
-
-            using (MySqlDataReader reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    budget = reader.GetDecimal("Budget");
-                }
-            }
-
-            connection.Close();
-        }
-
-        string spendingQuery = "SELECT SUM(Price) as TotalSpending FROM Purchase WHERE UserId = @userId";
-
-        using (MySqlCommand command = new MySqlCommand(spendingQuery, connection))
-        {
-            command.Parameters.AddWithValue("@userId", userId);
-
-            connection.Open();
-
-            using (MySqlDataReader reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    totalSpending = reader.IsDBNull(reader.GetOrdinal("TotalSpending")) ? 0 : reader.GetDecimal("TotalSpending");
-                }
-            }
-
-            connection.Close();
-        }
-
-        return budget - totalSpending;
-    }
-
-    // Implement other methods to interact with the database (e.g., GetPurchases, UpdatePurchase, DeletePurchase)
+    // ... other methods ...
 }
+
 
 [ApiController]
 [Route("[controller]")]
@@ -283,6 +257,28 @@ public class ItemController : ControllerBase
     {
         dataAccessLayer.AddGroceryItem(itemName, price, date);
         return Ok();
+    }
+
+    [HttpPost("login")]
+    public ActionResult<User> Login(User user)
+    {
+        User loggedInUser = dataAccessLayer.GetUserByUsernameAndPassword(user.Name, user.PasswordHash);
+        if (loggedInUser == null)
+        {
+            return NotFound();
+        }
+        return loggedInUser;
+    }
+
+    [HttpPost("signup")]
+    public ActionResult<User> Signup(User user)
+    {
+        User createdUser = dataAccessLayer.CreateUser(user);
+        if (createdUser == null)
+        {
+            return BadRequest();
+        }
+        return CreatedAtAction(nameof(Login), new { username = createdUser.Name, password = createdUser.PasswordHash }, createdUser);
     }
 
     [HttpGet("{itemName}")]
@@ -305,27 +301,6 @@ public class ItemController : ControllerBase
             return NotFound();
         }
         return summaries;
-    }
-
-    [HttpPost("budget")]
-    public ActionResult SetBudget(int userId, decimal budget)
-    {
-        dataAccessLayer.SetBudget(userId, budget);
-        return Ok();
-    }
-
-    [HttpPut("budget")]
-    public ActionResult UpdateBudget(int userId, decimal budget)
-    {
-        dataAccessLayer.UpdateBudget(userId, budget);
-        return Ok();
-    }
-
-    [HttpGet("{userId}/remainingBudget")]
-    public ActionResult<decimal> CalculateRemainingBudget(int userId)
-    {
-        decimal remainingBudget = dataAccessLayer.CalculateRemainingBudget(userId);
-        return Ok(remainingBudget);
     }
 
     // Implement other API endpoints (e.g., GET (all), POST, PUT, DELETE)
